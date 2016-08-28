@@ -9,13 +9,19 @@ St. Louis, Missouri
 
 ##Trouble with the Dataset 
 
+The consistency of the street name suffixes was made apparent by the case for the SQL project. I also noticed on the project forums that a number of people we noticing issues with postal codes.
+
+###Street Name Improvement
+
+
+
 ##Overview of the Data
 
 ##Other Ideas About the Dataset
 
-#File Links
+###File Links
 
-#Helpful websites and documentation
+###Helpful websites and documentation
 
 hoping that this was mainly one user but it seems to be a few
 
