@@ -11,8 +11,6 @@ import cleanStreeZip
 
 
 # this file is used to check the CVS's for systemic issues with the data
-
-
 expected = ["Street", "Avenue", "Boulevard", "Drive", "Court", "Place", "Square", "Lane", "Road",
             "Trail", "Parkway", "Commons", "Terrace", "Way", "Highway", "Plaza", "Circle"]
 
