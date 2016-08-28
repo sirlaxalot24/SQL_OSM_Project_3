@@ -12,7 +12,7 @@ expected = ["Street", "Avenue", "Boulevard", "Drive", "Court", "Place", "Square"
 topVar = 'type'
 bVar = 'key'
 param = 'street'
-fileName = 'nodes_tags.csv'
+fileName = 'ways_tags.csv'
 
 
 crazyVals = {}
@@ -25,7 +25,7 @@ with open(fileName, 'r') as f:
 
         if row[topVar] == param and bVar == 'value':
             # zipCode = cleanStreeZip.clean_street_name(row[bVar])
-            streetName = row[bVar]
+            streetName = row[bVar].split()[-1]
             # print streetName
             if streetName in expected:
                 pass
@@ -33,6 +33,9 @@ with open(fileName, 'r') as f:
                 crazyVals[streetName] = 1
             else:
                 crazyVals[streetName] += 1
+
+        elif bVar == 'value':
+            pass
 
             # run this statement when exploring keys and types
         else:

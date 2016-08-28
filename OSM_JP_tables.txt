@@ -1,0 +1,34 @@
+nodes
+(u'id', u'INTEGER')
+(u'lat', u'REAL')
+(u'lon', u'REAL')
+(u'user', u'TEXT')
+(u'uid', u'INTEGER')
+(u'version', u'INTEGER')
+(u'changeset', u'INTEGER')
+(u'timestamp', u'TEXT')
+
+nodes_tags
+(u'id', u'INTEGER')
+(u'key', u'TEXT')
+(u'value', u'TEXT')
+(u'type', u'TEXT')
+
+ways
+(u'id', u'INTEGER')
+(u'user', u'TEXT')
+(u'uid', u'INTEGER')
+(u'version', u'TEXT')
+(u'changeset', u'INTEGER')
+(u'timestamp', u'TEXT')
+
+ways_tags
+(u'id', u'INTEGER')
+(u'key', u'TEXT')
+(u'value', u'TEXT')
+(u'type', u'TEXT')
+
+ways_nodes
+(u'id', u'INTEGER')
+(u'node_id', u'INTEGER')
+(u'position', u'INTEGER')

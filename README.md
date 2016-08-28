@@ -1,7 +1,9 @@
-# project_3_SQL
+# P3: Wrangle OpenStreetMaps Data 
 
-###Map Area
+###Map of St. Louis
 
+
+!
 ```python
 import csv
 from pprint import pprint as pp
@@ -48,3 +50,4 @@ with open(fileName, 'r') as f:
 
 pp(crazyVals)
 ```
+!
