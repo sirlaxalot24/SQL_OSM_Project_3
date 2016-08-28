@@ -9,7 +9,9 @@ dbFile = "OSM_JP_Project.db"
 db = sqlite3.connect(dbFile)
 c = db.cursor()
 
-query = "SELECT nodes_tags.key, nodes_tags.value, nodes_tags.id, nodes.user, count(nodes.user) as Count " \
+query = "SELECT nodes_tags.key as 'Tag Key', " \
+        "nodes_tags.value as 'Tag Value', nodes_tags.type as 'Tag Type', " \
+        "nodes_tags.id as 'Node Id', nodes.user as User, count(nodes.user) as Count " \
         "FROM nodes_tags " \
         "JOIN nodes " \
         "ON nodes_tags.id = nodes.id " \
