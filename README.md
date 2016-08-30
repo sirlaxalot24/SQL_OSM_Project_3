@@ -67,14 +67,14 @@ pp(crazyVals)
 ```
 
 This block of code came in very handy when debugging my file that cleaned the data and created the CSV's. I mostly adapted the code from portions of the problem in from the case study. The most glaring issue was the key 'tiger'.
-I was unaware that this was a mojor import of data. I began to try and search through the various tags associated with tiger data and decided that cleaning that data was unnecessary. The second strange key I stumbled upon was 'FIXME'. 
+I was unaware that this was a major import of data. I began to try and search through the various tags associated with tiger data and decided that cleaning that data was unnecessary. The second strange key I stumbled upon was 'FIXME'. 
 Through further investigation, I found that users are setting way tags to FIXME. This seemed to be mostly for road construction or error marking.
 
 I decide neither of these keys, 'tiger' or 'FIXME', would be appropriate to clean. However, they did help me practice some tougher SQL and were interesting pieces of data to explore after I imported into SQLite.  
 
 ###Street Name and Postal Code Improvement
 
-The code I used for cleaning street names was basically what I used for the case study portion of the course. Below is a portion of the .py file I wrote for cleaning both street names and zip. I decided to put the two functions in a separate file, cleanStreeZip.py.
+The code I used for cleaning street names was basically what I used for the case study portion of the course. Below is a portion of the .py file I wrote for cleaning both street names and zip. I decided to put the two functions in a separate file, [cleanStreeZip.py](cleanStreeZip.py).
 I decided to split the element on the commas and only keep the first part of the returned list. The ordinal audit.py from the case study left the full string in the returned value. Removing the rest of the string, such as the errant city and state cleaned up my street names greatly.
 
 
