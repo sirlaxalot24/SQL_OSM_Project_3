@@ -10,10 +10,12 @@ St. Louis, Missouri
 ##Trouble with the Dataset 
 
 The consistency of the street name suffixes was made apparent by the case study for the SQL project. I also noticed on the project forums that a number of people were noticing issues with postal codes.
-However, I did decide to do some additional looking prior to writing code to clean any necessary tags. I set up a small python script in order to look through the CSV files created a various levels. By changing the variable's I could quickly search the largest tag 'types' and 'keys' for strange values
+However, I did decide to do some additional looking prior to writing code to clean any necessary tags. I set up a small python script in order to look through various levels the CSV files created. By changing the variable's I could quickly search the largest tag 'types' and 'keys' for strange values
 That script is below.
 
 ```python
+
+#files name is crazyVals.py
 
 import csv
 from pprint import pprint as pp
@@ -64,6 +66,11 @@ with open(fileName, 'r') as f:
 pp(crazyVals)
 ```
 
+This block of code came in very handy when debugging my file that cleaned the data and created the CSV's. I mostly adapted the code from portions of the problem in from the case study. The most glaring issue was the key 'tiger'.
+I was unaware that this was a mojor import of data. I began to try and search through the various tags associated with tiger data and decided that cleaning that data was unnecessary. The second strange key I stumbled upon was 'FIXME'. 
+Through further investigation, I found that users are setting way tags to FIXME. This seemed to be mostly for road construction or error marking.
+
+I decide neither of these keys, 'tiger' or 'FIXME', would be appropriate to clean. However, they did help me practice some tougher SQL and were interesting peices of data to explore after I imported into SQLite.  
 
 ###Street Name Improvement
 
