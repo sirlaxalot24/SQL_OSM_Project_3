@@ -70,11 +70,50 @@ This block of code came in very handy when debugging my file that cleaned the da
 I was unaware that this was a mojor import of data. I began to try and search through the various tags associated with tiger data and decided that cleaning that data was unnecessary. The second strange key I stumbled upon was 'FIXME'. 
 Through further investigation, I found that users are setting way tags to FIXME. This seemed to be mostly for road construction or error marking.
 
-I decide neither of these keys, 'tiger' or 'FIXME', would be appropriate to clean. However, they did help me practice some tougher SQL and were interesting peices of data to explore after I imported into SQLite.  
+I decide neither of these keys, 'tiger' or 'FIXME', would be appropriate to clean. However, they did help me practice some tougher SQL and were interesting pieces of data to explore after I imported into SQLite.  
 
-###Street Name Improvement
+###Street Name and Postal Code Improvement
+
+The code I used for cleaning street names was basically what I used for the case study portion of the course. Below is a portion of the .py file I wrote for cleaning both street names and zip. I decided to put the two functions in a separate file, cleanStreeZip.py.
+I decided to split the element on the commas and only keep the first part of the returned list. The ordinal audit.py from the case study left the full string in the returned value. Removing the rest of the string, such as the errant city and state cleaned up my street names greatly.
 
 
+```python
+
+def clean_street_name(name, mapping=MAPPING):
+    """
+
+    :type name: str
+    """
+    m = name.split(',')
+    m = street_type_re.search(m[0])
+    if m:
+        street_type = m.group()
+        if street_type in mapping.keys():
+            name = re.sub(street_type, mapping[street_type], name).split(',')[0]
+        else:
+            pass
+
+    return name.split(',')[0]
+
+```
+
+For the postal code improvements I decided to just grab the first occorance of a 5 digit sequence using regular expressions. In the end the postal codes never had a sequence of 5 digits anywhere in the tag value other than the appropriate postal code value. that code is below along with the regular expression. 
+
+```python
+
+findZip = re.compile(r'.*(\d{5}?)$', re.IGNORECASE)
+
+def clean_zip(zipCode):
+    m = findZip.search(zipCode)
+    if m:
+        return findZip.findall(zipCode)[0]
+    else:
+        return '00000'
+```
+
+
+The two functions were a great addition to the file that created my CSV's (data.py in the case study problems, my file equivalent is makeCSV.py). 
 
 ##Overview of the Data
 
