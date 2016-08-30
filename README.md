@@ -9,7 +9,61 @@ St. Louis, Missouri
 
 ##Trouble with the Dataset 
 
-The consistency of the street name suffixes was made apparent by the case for the SQL project. I also noticed on the project forums that a number of people we noticing issues with postal codes.
+The consistency of the street name suffixes was made apparent by the case study for the SQL project. I also noticed on the project forums that a number of people were noticing issues with postal codes.
+However, I did decide to do some additional looking prior to writing code to clean any necessary tags. I set up a small python script in order to look through the CSV files created a various levels. By changing the variable's I could quickly search the largest tag 'types' and 'keys' for strange values
+That script is below.
+
+```python
+
+import csv
+from pprint import pprint as pp
+import cleanStreeZip
+
+
+# this file is used to check the CVS's for systemic issues with the data
+
+
+expected = ["Street", "Avenue", "Boulevard", "Drive", "Court", "Place", "Square", "Lane", "Road",
+            "Trail", "Parkway", "Commons", "Terrace", "Way", "Highway", "Plaza", "Circle"]
+
+topVar = 'type'
+bVar = 'key'
+param = 'street'
+fileName = 'ways_tags.csv'
+
+
+crazyVals = {}
+
+with open(fileName, 'r') as f:
+    tags = csv.DictReader(f)
+    for row in tags:
+
+        # run this statement when looking for odd values
+
+        if row[topVar] == param and bVar == 'value':
+            # zipCode = cleanStreeZip.clean_street_name(row[bVar])
+            streetName = row[bVar].split()[-1]
+            # print streetName
+            if streetName in expected:
+                pass
+            elif streetName not in crazyVals:
+                crazyVals[streetName] = 1
+            else:
+                crazyVals[streetName] += 1
+
+        elif bVar == 'value':
+            pass
+
+            # run this statement when exploring keys and types
+        else:
+            if row[bVar] not in crazyVals:
+                crazyVals[row[bVar]] = 1
+            else:
+                crazyVals[row[bVar]] += 1
+
+pp(crazyVals)
+```
+
 
 ###Street Name Improvement
 
