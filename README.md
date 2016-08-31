@@ -186,34 +186,89 @@ Ways Tags:  957365
 
 ##Other Ideas About the Dataset
 
-###File Links
+I spent most of my SQL writing time digging into the tiger and FIXME data I discovered in the audit portion of the project. I had two main assumptions or questions. The first was about the tiger data and if a large import like that could possibly import zip code data outside of the St. Louis zip codes.
+The second assumption was that one person was using the FIXME tag and could I take a closer look at how they were using it.
+ 
+#####Tiger Data
 
-###Helpful websites and documentation
-
-hoping that this was mainly one user but it seems to be a few
+The code below is from [tigerData.py](tigerData.py). The first query was fairly straight forward. I wanted to see how many users had imported tiger. It turns out there are quite a few, but no one user imported more information than bot-mode.
+After seeing the amount of data bot-mode imported, I decided to focus just on that users Zip Codes. Bot-mode did not actually import anything outside of the St. Louis zips but did however import a very large variety of zip codes. The bottom figure in this section is bot-mode's imported zip by count.
+I realize that the top twenty zip codes imported isn't overwhelmingly exciting. I chose to include the sql and code here because it displayed the struggle I had writing a small sub query in query2. The results of the two queries are included below.
 
 ```
-   Tag Key                                          Tag Value Tag Type     Node Id          User  Count
-0    FIXME                                          continue?  regular  1788024764           NE2     45
-1    fixme  tiger corrected / reviewed to this position, s...  regular  1466883332       WernerP     19
-2    FIXME                                          continue?  regular  1780841454  railfan-eric     11
-3    FIXME  Remove barrier when bridge construction is com...  regular  4005088578      banjavjs     10
-4    fixme                                        extend line  regular  1874787257        zephyr     10
-5    fixme                         unvollstaendig / not ready  regular  1468568549       ELadner      5
-6    FIXME                         An aerodrome here, really?  regular   368934161   maxerickson      2
-7    fixme                         unvollstaendig / not ready  regular  1466842255      Sundance      1
-8    fixme  survey pleaese: is there really a street conne...  regular   191032712   aseerel4c26      1
-9    fixme                                        extend line  regular  1821522368     bahnpirat      1
-10   fixme  Please add turn restrictions as needed. Maybe ...  regular   191054803     dannykath      1
-11   fixme                    This does not look like a park.  regular   354110002       g246020      1
-12   fixme                   This junction looks to be wrong.  regular   193079849          spod      1
-13   FIXME                                      check signage  regular   313034400       stucki1      1
-14   FIXME            Position is in the middle of the street  regular  4327912487     user_5359      1
+import sqlite3
+from pprint import pprint as pp
+import pandas as pd
+
+
+dbFile = "OSM_JP_Project.db"
+db = sqlite3.connect(dbFile)
+c = db.cursor()
+
+query = "SELECT ways.user as User, count(*) as Count " \
+        "FROM ways_tags " \
+        "JOIN ways " \
+        "ON ways_tags.id = ways.id " \
+        "WHERE type = 'tiger'" \
+        "GROUP BY User " \
+        "ORDER BY Count DESC " \
+        "LIMIT 25; "
+
+
+c.execute(query)
+
+# ------ Grab header names
+
+headerVar = list(c.description)
+headers = []
+
+for i in range(len(headerVar)):
+    headx = (headerVar[i][0])
+    headers.append(headx)
+
+# fetch data, print, and make a dataframe for display purposes
+
+data = pd.DataFrame(c.fetchall(), columns=headers)
+pd.set_option("expand_frame_repr", False)
+
+pp(data)
+
+
+query2 = "SELECT User, zips as 'Zip Codes', count(*) as Count " \
+         "FROM(SELECT ways_tags.value as zips, ways.user as User " \
+         "FROM ways_tags " \
+         "JOIN ways " \
+         "ON ways_tags.id = ways.id " \
+         "WHERE ways.user = 'bot-mode' " \
+         "and ways_tags.type = 'tiger' " \
+         "and (ways_tags.key = 'zip_right' " \
+         "or ways_tags.key = 'zip_left')) as zipsTb " \
+         "GROUP BY zips " \
+         "ORDER BY Count DESC " \
+         "LIMIT 20;" \
+
+c.execute(query2)
+# ------ Grab header names
+
+headerVar2 = list(c.description)
+headers2 = []
+
+for i in range(len(headerVar2)):
+    headx2 = (headerVar2[i][0])
+    headers2.append(headx2)
+
+# fetch data, print, and make a dataframe for display purposes
+
+data2 = pd.DataFrame(c.fetchall(), columns=headers2)
+pd.set_option("expand_frame_repr", False)
+
+pp(data2)
+
+db.close()
 ```
 
-
-````
-
+######All Users Importing Tiger Data
+```
                User   Count
 0          bot-mode  244031
 1   DaveHansenTiger   72014
@@ -242,7 +297,8 @@ hoping that this was mainly one user but it seems to be a few
 24           ediyes    2136
 
 ```
-
+######bot-mode's Imports
+```
         User Zip Codes  Count
 0   bot-mode     63376   1594
 1   bot-mode     62002   1465
@@ -264,3 +320,52 @@ hoping that this was mainly one user but it seems to be a few
 17  bot-mode     62223    687
 18  bot-mode     62269    680
 19  bot-mode     62221    671
+
+```
+
+
+#####FIXME Data
+
+I was really hoping the tags with the key 'FIXME' were from one user. It turns out the tags were actually from multiple users listed below, sorted by count. The "Tag Value" column in the output shows a couple examples of how users were marking certain tags to be checked on later.
+The full file for this output is [FIXME.py](FIXME.py). Here is the SQL. 
+ 
+```SQL
+SELECT nodes_tags.key as 'Tag Key',
+nodes_tags.value as 'Tag Value', nodes_tags.type as 'Tag Type',
+nodes_tags.id as 'Node Id', nodes.user as User, count(nodes.user) as Count
+FROM nodes_tags
+JOIN nodes
+ON nodes_tags.id = nodes.id
+WHERE key LIKE 'FIXME%'
+GROUP BY nodes.user
+ORDER BY Count DESC;
+
+```
+
+###### FIXME Output
+```
+   Tag Key                                          Tag Value Tag Type     Node Id          User  Count
+0    FIXME                                          continue?  regular  1788024764           NE2     45
+1    fixme  tiger corrected / reviewed to this position, s...  regular  1466883332       WernerP     19
+2    FIXME                                          continue?  regular  1780841454  railfan-eric     11
+3    FIXME  Remove barrier when bridge construction is com...  regular  4005088578      banjavjs     10
+4    fixme                                        extend line  regular  1874787257        zephyr     10
+5    fixme                         unvollstaendig / not ready  regular  1468568549       ELadner      5
+6    FIXME                         An aerodrome here, really?  regular   368934161   maxerickson      2
+7    fixme                         unvollstaendig / not ready  regular  1466842255      Sundance      1
+8    fixme  survey pleaese: is there really a street conne...  regular   191032712   aseerel4c26      1
+9    fixme                                        extend line  regular  1821522368     bahnpirat      1
+10   fixme  Please add turn restrictions as needed. Maybe ...  regular   191054803     dannykath      1
+11   fixme                    This does not look like a park.  regular   354110002       g246020      1
+12   fixme                   This junction looks to be wrong.  regular   193079849          spod      1
+13   FIXME                                      check signage  regular   313034400       stucki1      1
+14   FIXME            Position is in the middle of the street  regular  4327912487     user_5359      1
+```
+
+
+
+###File Links
+
+###Helpful websites and documentation
+
+hoping that this was mainly one user but it seems to be a few

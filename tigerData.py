@@ -3,8 +3,6 @@ from pprint import pprint as pp
 import pandas as pd
 
 
-# Found a node tag with a key of 'FIXEME' so I would like to explore who is using that key
-
 dbFile = "OSM_JP_Project.db"
 db = sqlite3.connect(dbFile)
 c = db.cursor()
