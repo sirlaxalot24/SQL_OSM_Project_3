@@ -177,12 +177,12 @@ Ways Tags:  957365
 
 [Link to Larger Files](https://www.dropbox.com/sh/gdrgz6cpxdcnekr/AAAfe7o0KQ8X0la7eqU0einWa?dl=0)
 
--saint-louis_missouri.osm  360 MB
--nodes.csv                 136 MB
--nodes_tags.csv            3 MB
--ways.csv                  9 MB
--ways_nodes.csv            44 MB
--ways_tags.csv             33 MB
+- saint-louis_missouri.osm  360 MB
+- nodes.csv                 136 MB
+- nodes_tags.csv            3 MB
+- ways.csv                  9 MB
+- ways_nodes.csv            44 MB
+- ways_tags.csv             33 MB
 
 ##Other Ideas About the Dataset
 
