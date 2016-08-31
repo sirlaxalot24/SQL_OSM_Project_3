@@ -9,8 +9,10 @@ import cleanStreeZip
 expected = ["Street", "Avenue", "Boulevard", "Drive", "Court", "Place", "Square", "Lane", "Road",
             "Trail", "Parkway", "Commons", "Terrace", "Way", "Highway", "Plaza", "Circle"]
 
-topVar = 'type'
-bVar = 'key'
+# the if statements below will run depending on the variables used.
+
+topVar = 'key'
+bVar = 'value'
 param = 'street'
 fileName = 'ways_tags.csv'
 
@@ -25,7 +27,7 @@ with open(fileName, 'r') as f:
 
         if row[topVar] == param and bVar == 'value':
             # zipCode = cleanStreeZip.clean_street_name(row[bVar])
-            streetName = row[bVar].split()[-1]
+            streetName = row[bVar]
             # print streetName
             if streetName in expected:
                 pass

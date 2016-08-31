@@ -77,6 +77,9 @@ I decide neither of these keys, 'tiger' or 'FIXME', would be appropriate to clea
 The code I used for cleaning street names was basically what I used for the case study portion of the course. Below is a portion of the .py file I wrote for cleaning both street names and zip. I decided to put the two functions in a separate file, [cleanStreeZip.py](cleanStreeZip.py).
 I decided to split the element on the commas and only keep the first part of the returned list. The ordinal audit.py from the case study left the full string in the returned value. Removing the rest of the string, such as the errant city and state cleaned up my street names greatly.
 
+For example, the code below would take '260 Hoffmeister Ave, Saint Louis, MO(314) 631-2866' and split the string on the commas. Only taking the first portion, '260 Hoffmeister Ave'. The last word in this string is then checked against the MAPPING diction ary in [cleanStreeZip.py](cleanStreeZip.py])]
+This particular example will replace the 'Ave' and the end and return '260 Hoffmeister Aveneue' while stripping away 'Saint Louis' and 'MO(314) 631-2866'
+
 
 ```python
 
@@ -99,6 +102,8 @@ def clean_street_name(name, mapping=MAPPING):
 ```
 
 For the postal code improvements I decided to just grab the first occorance of a 5 digit sequence using regular expressions. In the end the postal codes never had a sequence of 5 digits anywhere in the tag value other than the appropriate postal code value. that code is below along with the regular expression. 
+
+Most of the inconsistencies I found in the postal code tags came from additional string characters. For example 'MO: 63385'. The 'findZip' variable below was able to easily find the 5 digit sequence, returning '63385'  
 
 ```python
 
@@ -362,6 +367,15 @@ ORDER BY Count DESC;
 14   FIXME            Position is in the middle of the street  regular  4327912487     user_5359      1
 ```
 
+###Possible Improvements
+
+The splitting of tag attribute's keys, for both nodes and ways, into 'type' and 'key' for the database was very helpful. Continuing to hone code that will allow for more precise 'types' and 'keys' or grouping them into values with similar structure could improve cleaning.
+One way is to reduce the overall amount of functions needed to clean the data. If I could have labelled the 'tiger' data's 'type' based on its 'key' I could have cleaned the 'value'. To be more clear, 'tiger' was the 'type' and many times the 'key' was 'ZipRight'. If I could have lumped those in with the postal codes I caught for my cleaning function, there would have been much more consistency in the dataset.
+
+The problem with that method would be losing the tiger 'type'. I'm not sure how important it is to recognize which 'ways' were imported through tiger and which weren't. I did read on the OpenStreetMaps wiki that users should not be conceded with overwriting tiger data. Also, OpenStreetMaps did not plan on doing another import, so any data that was manipulated would not be overwritten.
+ 
+Another theoretical improvement that I may look into is consistency with Yelp. I couldn't help thinking how I could bring Yelp data into my SQLite db. That would open up my queries to far more additional, and more useful for me, information. However, cleaing could potentially be very difficult. I would be concerned with losing data on something like a restaurant due to lat long or names being inconsistent between OpenStreetMaps and Yelp. 
+ 
 
 
 ###Additional File Links
