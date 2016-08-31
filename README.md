@@ -11,7 +11,7 @@ St. Louis, Missouri
 
 The consistency of the street name suffixes was made apparent by the case study for the SQL project. I also noticed on the project forums that a number of people were noticing issues with postal codes.
 However, I did decide to do some additional looking prior to writing code to clean any necessary tags. I set up a small python script in order to look through various levels the CSV files created. By changing the variable's I could quickly search the largest tag 'types' and 'keys' for strange values
-That script is below.
+That script is below ([crazyVals.py](crazyVals.py)).
 
 ```python
 
@@ -113,9 +113,76 @@ def clean_zip(zipCode):
 ```
 
 
-The two functions were a great addition to the file that created my CSV's (data.py in the case study problems, my file equivalent is makeCSV.py). 
+The two functions were a great addition to the file that created my CSV's (data.py in the case study problems, my file equivalent is [makeCSV.py](makeCSV.py). 
 
 ##Overview of the Data
+
+For a quick overview of the size of my tables, I put together this fairly inefficient but effective file, [queryScratch.py](queryScratch.py). 
+
+```python
+import sqlite3
+
+dbFile = "OSM_JP_Project.db"
+
+db = sqlite3.connect(dbFile)
+
+c = db.cursor()
+
+query1 = "SELECT count(*) " \
+         "FROM nodes;" \
+
+query2 = "SELECT count(*) " \
+         "FROM nodes_tags;"
+
+query3 = "SELECT count(*) " \
+         "FROM ways;"
+
+query4 = "SELECT count(*) " \
+         "FROM ways_nodes;"
+
+query5 = "SELECT count(*) " \
+         "FROM ways_tags;"
+
+c.execute(query1)
+print "Nodes: ", c.fetchall()[0][0]
+
+c.execute(query2)
+print "Nodes Tags: ", c.fetchall()[0][0]
+
+c.execute(query3)
+print "Ways: ", c.fetchall()[0][0]
+
+c.execute(query4)
+print "Ways_Nodes: ", c.fetchall()[0][0]
+
+c.execute(query5)
+print "Ways Tags: ", c.fetchall()[0][0]
+
+
+db.close()
+```
+
+
+
+```
+Nodes:  1688506
+Nodes Tags:  80298
+Ways:  162837
+Ways_Nodes:  1919496
+Ways Tags:  957365
+
+```
+
+####Other Dataset Size Information
+
+[Link to Larger Files](https://www.dropbox.com/sh/gdrgz6cpxdcnekr/AAAfe7o0KQ8X0la7eqU0einWa?dl=0)
+
+-saint-louis_missouri.osm  360 MB
+-nodes.csv                 136 MB
+-nodes_tags.csv            3 MB
+-ways.csv                  9 MB
+-ways_nodes.csv            44 MB
+-ways_tags.csv             33 MB
 
 ##Other Ideas About the Dataset
 

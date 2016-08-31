@@ -1,7 +1,4 @@
 import sqlite3
-from pprint import pprint as pp
-import pandas as pd
-
 
 dbFile = "OSM_JP_Project.db"
 
@@ -9,25 +6,35 @@ db = sqlite3.connect(dbFile)
 
 c = db.cursor()
 
-query = "SELECT * " \
-        "FROM nodes " \
-        "LIMIT 10;"
+query1 = "SELECT count(*) " \
+         "FROM nodes;" \
 
-c.execute(query)
+query2 = "SELECT count(*) " \
+         "FROM nodes_tags;"
 
-# ------ Grab header names for printing
+query3 = "SELECT count(*) " \
+         "FROM ways;"
 
-headerVar = list(c.description)
-headers = []
+query4 = "SELECT count(*) " \
+         "FROM ways_nodes;"
 
-for i in range(len(headerVar)):
-    headx = (headerVar[i][0])
-    headers.append(headx)
+query5 = "SELECT count(*) " \
+         "FROM ways_tags;"
 
-# fetch data and print and make a dataframe for display purposes
+c.execute(query1)
+print "Nodes: ", c.fetchall()[0][0]
 
-data = pd.DataFrame(c.fetchall(), columns=headers)
+c.execute(query2)
+print "Nodes Tags: ", c.fetchall()[0][0]
 
-pp(data)
+c.execute(query3)
+print "Ways: ", c.fetchall()[0][0]
+
+c.execute(query4)
+print "Ways_Nodes: ", c.fetchall()[0][0]
+
+c.execute(query5)
+print "Ways Tags: ", c.fetchall()[0][0]
+
 
 db.close()
