@@ -364,8 +364,23 @@ ORDER BY Count DESC;
 
 
 
-###File Links
+###Additional File Links
+
+- [xmlSample.py](xmlSmaple.py)
+- [smallStLou.osm](smallStLou.osm)  *This is the sample file
+- [listTables.py](listTables.py) *I will always keep this code close by when working with SQLite. It was a great way to list out all the tables and columns
+- [OSM_JP_tables.txt](OSM_JP_tables.txt) *Output of listTables.py
+- [schema.py](schema.py)
+- [create_tables.py](create_tables.py) *This is the code I used to create the tables in SQLite. This was much easier than using SQLite from the cmd line. 
+
+
 
 ###Helpful websites and documentation
 
-hoping that this was mainly one user but it seems to be a few
+- [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [sqlite3 Docs](https://docs.python.org/2/library/sqlite3.html)
+- [Python re docs](https://docs.python.org/2/library/re.html)
+- [w3schools.com SQL tutorial](http://www.w3schools.com/sql/)
+- [ElementTree Docs](https://docs.python.org/2/library/xml.etree.elementtree.html)
+- [sebastianraschka - A thorough guide to SQLite database operations in Python](http://sebastianraschka.com/Articles/2014_sqlite_in_python_tutorial.html)
+- [Pandas Print Settings](http://pandas.pydata.org/pandas-docs/stable/options.html)
